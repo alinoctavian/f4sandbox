@@ -11,20 +11,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{7C62DFD0-6804-0AA7-51BF-1DFB3D0091F7}</ProjectGuid>
+    <ProjectGuid>{8EEA3EAC-7A8C-6982-6347-7DD64F88F0D2}</ProjectGuid>
     <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Server</RootNamespace>
+    <RootNamespace>Common</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug64|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release64|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
@@ -40,47 +40,48 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug64|x64'">
-    <LinkIncremental>true</LinkIncremental>
     <OutDir>bin\Debug64\</OutDir>
-    <IntDir>obj\Debug64\Server\</IntDir>
-    <TargetName>Server</TargetName>
-    <TargetExt>.exe</TargetExt>
+    <IntDir>obj\Debug64\Common\</IntDir>
+    <TargetName>Common</TargetName>
+    <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release64|x64'">
-    <LinkIncremental>true</LinkIncremental>
     <OutDir>bin\Release64\</OutDir>
-    <IntDir>obj\Release64\Server\</IntDir>
-    <TargetName>Server</TargetName>
-    <TargetExt>.exe</TargetExt>
+    <IntDir>obj\Release64\Common\</IntDir>
+    <TargetName>Common</TargetName>
+    <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug64|x64'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>..\Libraries;..\Libraries\detours\include;..\Libraries\steam\include;..\Libraries\spdlog\include;..\Libraries\steamnetwork\include;..\Libraries\json\include;..\Code\Server\include;..\Code\Server\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Libraries;..\Libraries\detours\include;..\Libraries\steam\include;..\Libraries\spdlog\include;..\Libraries\steamnetwork\include;..\Libraries\json\include;..\Code\Common\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>..\Libraries\spdlogd\x64\spdlogd.lib;..\Libraries\steamnetwork\x64\GameNetworkingSockets_s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release64|x64'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>..\Libraries;..\Libraries\detours\include;..\Libraries\steam\include;..\Libraries\spdlog\include;..\Libraries\steamnetwork\include;..\Libraries\json\include;..\Code\Server\include;..\Code\Server\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Libraries;..\Libraries\detours\include;..\Libraries\steam\include;..\Libraries\spdlog\include;..\Libraries\steamnetwork\include;..\Libraries\json\include;..\Code\Common\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>..\Libraries\spdlogd\x64\spdlogd.lib;..\Libraries\steamnetwork\x64\GameNetworkingSockets_s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Code\Server\src\main.cpp" />
+    <ClInclude Include="..\Code\Common\include\GameAddr.hpp" />
+    <ClInclude Include="..\Code\Common\include\GamePtr.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Code\Common\src\GameAddr.cpp" />
+    <ClCompile Include="..\Code\Common\src\GamePtr.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
