@@ -38,7 +38,7 @@ solution "F4Sandbox"
         }
 
     project "Client"
-        kind "SharedLib"
+        kind "ConsoleApp"
         
         language "C++"
 
@@ -59,7 +59,17 @@ solution "F4Sandbox"
         links {
             "Common",
             libDir .. "detours/x64/detours.lib",
-            libDir .. "spdlogd/x64/spdlogd.lib",
+            libDir .. "spdlog/x64/spdlogd.lib",
             libDir .. "steam/x64/steam_api64.lib",
             libDir .. "steamnetwork/x64/GameNetworkingSockets_s.lib",
         }
+    
+    ---C# Test App
+    project "TestApp"
+        targetname "TestApp"
+
+        kind "SharedLib"
+        language "C#"
+
+        
+        files { "../Code/TestApp/**cs"}

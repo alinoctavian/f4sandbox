@@ -18,13 +18,13 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug64|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release64|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
@@ -44,48 +44,47 @@
     <OutDir>bin\Debug64\</OutDir>
     <IntDir>obj\Debug64\Client\</IntDir>
     <TargetName>Client</TargetName>
-    <TargetExt>.dll</TargetExt>
+    <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release64|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>bin\Release64\</OutDir>
     <IntDir>obj\Release64\Client\</IntDir>
     <TargetName>Client</TargetName>
-    <TargetExt>.dll</TargetExt>
+    <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug64|x64'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>..\Libraries;..\Libraries\detours\include;..\Libraries\steam\include;..\Libraries\spdlog\include;..\Libraries\steamnetwork\include;..\Libraries\json\include;..\Libraries\netcore\include;..\Code\Client\include;..\Code\Common\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Libraries;..\Libraries\detours\include;..\Libraries\steam\include;..\Libraries\spdlog\include;..\Libraries\steamnetwork\include;..\Libraries\json\include;..\Code\Client\include;..\Code\Common\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>..\Libraries\detours\x64\detours.lib;..\Libraries\spdlogd\x64\spdlogd.lib;..\Libraries\steam\x64\steam_api64.lib;..\Libraries\steamnetwork\x64\GameNetworkingSockets_s.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ImportLibrary>bin\Debug64\Client.lib</ImportLibrary>
+      <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>..\Libraries\detours\x64\detours.lib;..\Libraries\spdlog\x64\spdlogd.lib;..\Libraries\steam\x64\steam_api64.lib;..\Libraries\steamnetwork\x64\GameNetworkingSockets_s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release64|x64'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>..\Libraries;..\Libraries\detours\include;..\Libraries\steam\include;..\Libraries\spdlog\include;..\Libraries\steamnetwork\include;..\Libraries\json\include;..\Libraries\netcore\include;..\Code\Client\include;..\Code\Common\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Libraries;..\Libraries\detours\include;..\Libraries\steam\include;..\Libraries\spdlog\include;..\Libraries\steamnetwork\include;..\Libraries\json\include;..\Code\Client\include;..\Code\Common\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>..\Libraries\detours\x64\detours.lib;..\Libraries\spdlogd\x64\spdlogd.lib;..\Libraries\steam\x64\steam_api64.lib;..\Libraries\steamnetwork\x64\GameNetworkingSockets_s.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ImportLibrary>bin\Release64\Client.lib</ImportLibrary>
+      <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>..\Libraries\detours\x64\detours.lib;..\Libraries\spdlog\x64\spdlogd.lib;..\Libraries\steam\x64\steam_api64.lib;..\Libraries\steamnetwork\x64\GameNetworkingSockets_s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Code\Client\src\main.cpp" />
+    <ClInclude Include="..\Code\Client\include\Utils.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ClCompile Include="..\Code\Client\src\Utils.cpp" />
+    <ClCompile Include="..\Code\Client\src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Common.vcxproj">
@@ -94,12 +93,5 @@
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="packages\Microsoft.NETCore.DotNetAppHost.3.1.9\build\native\Microsoft.NETCore.DotNetAppHost.targets" Condition="Exists('packages\Microsoft.NETCore.DotNetAppHost.3.1.9\build\native\Microsoft.NETCore.DotNetAppHost.targets')" />
   </ImportGroup>
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('packages\Microsoft.NETCore.DotNetAppHost.3.1.9\build\native\Microsoft.NETCore.DotNetAppHost.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.NETCore.DotNetAppHost.3.1.9\build\native\Microsoft.NETCore.DotNetAppHost.targets'))" />
-  </Target>
 </Project>
