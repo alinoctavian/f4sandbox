@@ -37,32 +37,6 @@ solution "F4Sandbox"
             "../Code/Common/src/**.c",
         }
 
-    project "Server"
-        ---Set the kind of the app
-        kind "ConsoleApp"
-
-        ---Set the app language
-        language "C++"
-        ---Setting the language version
-        cppdialect "C++20"
-
-        includedirs {
-            "../Code/Server/include/",
-            "../Code/Server/src/"
-        }
-
-        files {
-            "../Code/Server/include/**.hpp",
-            "../Code/Server/include/**.h",
-            "../Code/Server/src/**.cpp",
-            "../Code/Server/src/**.c",
-        }
-
-        links {
-            libDir .. "spdlogd/x64/spdlogd.lib",
-            libDir .. "steamnetwork/x64/GameNetworkingSockets_s.lib",
-        }
-
     project "Client"
         kind "SharedLib"
         
