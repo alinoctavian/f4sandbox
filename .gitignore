@@ -6,6 +6,17 @@
 *.lo
 *.o
 *.obj
+*.exe
+*.dll
+*.lib
+*.tlog
+*.pdb
+*.db
+*.cache
+.vs/v16/
+.vs/*.db
+.vs/
+x64/
 
 # Precompiled Headers
 *.gch
@@ -30,3 +41,5 @@
 *.exe
 *.out
 *.app
+*.db
+.vs/Client/v16/*.db

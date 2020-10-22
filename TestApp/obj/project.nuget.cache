@@ -1,11 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "cN+Z++q9cCsCuAQribQEWLdGcnLfNBqZ4rkeV7WN/fpt2o6zH/0UPrWNW30LxkCiDyheTyWvF9S2BM74vse/Wg==",
+  "dgSpecHash": "vjUoYcPxjYnRMdRG1LaG1QUpjG5ShPHkn6PT3mih7W/wDKWeY3ZE4V4tHTTWdTaWW4owQ22wjsgZGmQnNg02cw==",
   "success": true,
   "projectFilePath": "C:\\Users\\again\\source\\f4sandbox\\TestApp\\TestApp.csproj",
-  "expectedPackageFiles": [
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
-  ],
+  "expectedPackageFiles": [],
   "logs": []
 }
