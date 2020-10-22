@@ -55,7 +55,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>..\Libraries;..\Libraries\detours\include;..\Libraries\steam\include;..\Libraries\spdlog\include;..\Libraries\steamnetwork\include;..\Libraries\json\include;..\Code\Common\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Libraries;..\Libraries\detours\include;..\Libraries\steam\include;..\Libraries\spdlog\include;..\Libraries\steamnetwork\include;..\Libraries\json\include;..\Libraries\netcore\include;..\Code\Common\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
@@ -67,7 +67,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>..\Libraries;..\Libraries\detours\include;..\Libraries\steam\include;..\Libraries\spdlog\include;..\Libraries\steamnetwork\include;..\Libraries\json\include;..\Code\Common\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Libraries;..\Libraries\detours\include;..\Libraries\steam\include;..\Libraries\spdlog\include;..\Libraries\steamnetwork\include;..\Libraries\json\include;..\Libraries\netcore\include;..\Code\Common\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>

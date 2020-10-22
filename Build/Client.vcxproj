@@ -57,7 +57,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>..\Libraries;..\Libraries\detours\include;..\Libraries\steam\include;..\Libraries\spdlog\include;..\Libraries\steamnetwork\include;..\Libraries\json\include;..\Code\Client\include;..\Code\Common\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Libraries;..\Libraries\detours\include;..\Libraries\steam\include;..\Libraries\spdlog\include;..\Libraries\steamnetwork\include;..\Libraries\json\include;..\Libraries\netcore\include;..\Code\Client\include;..\Code\Common\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
@@ -71,7 +71,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>..\Libraries;..\Libraries\detours\include;..\Libraries\steam\include;..\Libraries\spdlog\include;..\Libraries\steamnetwork\include;..\Libraries\json\include;..\Code\Client\include;..\Code\Common\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Libraries;..\Libraries\detours\include;..\Libraries\steam\include;..\Libraries\spdlog\include;..\Libraries\steamnetwork\include;..\Libraries\json\include;..\Libraries\netcore\include;..\Code\Client\include;..\Code\Common\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
@@ -85,11 +85,21 @@
     <ClCompile Include="..\Code\Client\src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="Common.vcxproj">
       <Project>{8EEA3EAC-7A8C-6982-6347-7DD64F88F0D2}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="packages\Microsoft.NETCore.DotNetAppHost.3.1.9\build\native\Microsoft.NETCore.DotNetAppHost.targets" Condition="Exists('packages\Microsoft.NETCore.DotNetAppHost.3.1.9\build\native\Microsoft.NETCore.DotNetAppHost.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\Microsoft.NETCore.DotNetAppHost.3.1.9\build\native\Microsoft.NETCore.DotNetAppHost.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.NETCore.DotNetAppHost.3.1.9\build\native\Microsoft.NETCore.DotNetAppHost.targets'))" />
+  </Target>
 </Project>
