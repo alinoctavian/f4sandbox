@@ -72,4 +72,4 @@ solution "F4Sandbox"
         language "C#"
 
         
-        files { "../Code/TestApp/**cs"}
+        files { "../Code/TestApp/**.cs"}
