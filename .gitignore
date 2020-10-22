@@ -43,4 +43,3 @@ x64/
 *.app
 *.db
 .vs/Client/v16/*.db
-.vs/Client/v16/Browse.VC.db
