@@ -1,0 +1,9 @@
+C:\Users\again\source\f4sandbox\Build\TestApp\bin\Release\netcoreapp3.1\TestApp.deps.json
+C:\Users\again\source\f4sandbox\Build\TestApp\bin\Release\netcoreapp3.1\TestApp.dll
+C:\Users\again\source\f4sandbox\Build\TestApp\bin\Release\netcoreapp3.1\TestApp.pdb
+C:\Users\again\source\f4sandbox\Build\TestApp\obj\Release\netcoreapp3.1\TestApp.csprojAssemblyReference.cache
+C:\Users\again\source\f4sandbox\Build\TestApp\obj\Release\netcoreapp3.1\TestApp.AssemblyInfoInputs.cache
+C:\Users\again\source\f4sandbox\Build\TestApp\obj\Release\netcoreapp3.1\TestApp.AssemblyInfo.cs
+C:\Users\again\source\f4sandbox\Build\TestApp\obj\Release\netcoreapp3.1\TestApp.csproj.CoreCompileInputs.cache
+C:\Users\again\source\f4sandbox\Build\TestApp\obj\Release\netcoreapp3.1\TestApp.dll
+C:\Users\again\source\f4sandbox\Build\TestApp\obj\Release\netcoreapp3.1\TestApp.pdb

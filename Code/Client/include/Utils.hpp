@@ -10,12 +10,12 @@
 #include <hostfxr.h>
 #include <cassert>
 
-namespace Utils{
+namespace Utils {
 
 	class FileManager {
-	public :
+	public:
 
-		[[nodiscard]] static std::string GetAppPath(){
+		[[nodiscard]] static std::string GetAppPath() {
 			char buffer[MAX_PATH];
 			GetModuleFileNameA(NULL, buffer, MAX_PATH);
 			std::string::size_type pos = std::string(buffer).find_last_of("\\/");

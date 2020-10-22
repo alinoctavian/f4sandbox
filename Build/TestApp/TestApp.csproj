@@ -54,7 +54,7 @@
     <Reference Include="System.Runtime.InteropServices" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Code\TestApp\Main.cs">
+    <Compile Include="..\..\Code\TestApp\Main.cs">
       <Link>Code\TestApp\Main.cs</Link>
     </Compile>
   </ItemGroup>
