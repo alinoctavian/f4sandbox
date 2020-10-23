@@ -2,7 +2,7 @@ set(PROJ Common)
 
 set(SRC_DIR ./src)
 set(INCLUDE_DIR ./include)
-set(LIB_DIR ./libs)
+set(LIB_DIR  ${CMAKE_CURRENT_SOURCE_DIR}/libs)
 
 file(GLOB SOURCE_FILES
         ${SRC_DIR}/*
