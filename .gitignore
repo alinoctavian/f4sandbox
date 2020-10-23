@@ -10,6 +10,9 @@
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
+cmake-build-debug/
+cmake-build-release/
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
@@ -21,6 +24,7 @@ bld/
 [Bb]in/
 [Oo]bj/
 [Ll]og/
+old/
 
 # Visual Studio 2015 cache/options directory
 .vs/
@@ -204,6 +208,10 @@ UpgradeLog*.htm
 # SQL Server files
 *.mdf
 *.ldf
+
+*.dll
+*.lib
+*.exe
 
 # Business Intelligence projects
 *.rdl.data
