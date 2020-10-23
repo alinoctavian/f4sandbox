@@ -12,6 +12,7 @@ DWORD WINAPI Main(LPVOID lpThreadParameter){
     AllocConsole();
     freopen_s((FILE**)stdout, "CONOUT$", "w", stdout);
 
+    //Initialize Logging
     F4S_LOG_INIT;
 
     F4S_LOG_INFO("F4Sandbox - 0.1");
