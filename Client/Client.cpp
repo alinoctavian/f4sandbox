@@ -1,199 +1,68 @@
 #include <Windows.h>
 #include <iostream>
-#include <limits.h>
 
-#include <nethost.h>
-#include <stdio.h>
-#include <stdint.h>
-#include <stdlib.h>
-#include <string.h>
-#include <assert.h>
-#include <coreclr_delegates.h>
-#include <hostfxr.h>
+#include <mono/metadata/assembly.h>
+#include <mono/jit/jit.h>
+#include <mono/metadata/debug-helpers.h>
 
-#define STR(s) L ## s
-#define CH(c) L ## c
-#define DIR_SEPARATOR L'\\'
+void PrintMethod(MonoString* string) {
+	char* cppString = mono_string_to_utf8(string);
 
+	std::cout << cppString;
 
-
-using string_t = std::basic_string<char_t>;
-
-namespace
-{
-    // Globals to hold hostfxr exports
-    hostfxr_initialize_for_runtime_config_fn init_fptr;
-    hostfxr_get_runtime_delegate_fn get_delegate_fptr;
-    hostfxr_close_fn close_fptr;
-
-    // Forward declarations
-    bool load_hostfxr();
-    load_assembly_and_get_function_pointer_fn get_dotnet_load_assembly(const char_t* assembly);
+	mono_free(cppString);
 }
-
 
 int main(int argc, wchar_t* argv[])
 {
     std::cout << "Test" << std::endl;
 
-    char_t host_path[MAX_PATH];
+    mono_set_dirs("C:\\Program Files\\Mono\\lib",
+        "C:\\Program Files\\Mono\\etc");
 
-    auto size = ::GetFullPathNameW(argv[0], sizeof(host_path) / sizeof(char_t), host_path, nullptr);
-    assert(size != 0);
+    MonoDomain* domain = mono_jit_init("CSharp_Domain");
 
-    string_t root_path = host_path;
-    auto pos = root_path.find_last_of(DIR_SEPARATOR);
-    assert(pos != string_t::npos);
-    root_path = root_path.substr(0, pos + 1);
+    std::string assemblyPath = "C:\\Users\\again\\source\\f4sandbox\\TestApp\\bin\\Debug\\netcoreapp3.1\\TestApp.dll";
 
-    //
-    // STEP 1: Load HostFxr and get exported hosting functions
-    //
-    if (load_hostfxr())
-    {
-        assert(false && "Failure: load_hostfxr()");
-        return EXIT_FAILURE;
+    MonoAssembly* csharpAssembly = mono_domain_assembly_open(domain, assemblyPath.c_str());
+   
+    if (!csharpAssembly) {
+        std::cout << "Assembly failed to open \n";
     }
 
-    //
-    // STEP 2: Initialize and start the .NET Core runtime
-    //
-    const string_t config_path = root_path + STR("\\Debug\\TestApp.runtimeconfig.json");
-    load_assembly_and_get_function_pointer_fn load_assembly_and_get_function_pointer = nullptr;
-    load_assembly_and_get_function_pointer = get_dotnet_load_assembly(config_path.c_str());
-    assert(load_assembly_and_get_function_pointer == nullptr && "Failure: get_dotnet_load_assembly()");
-
-    //
-    // STEP 3: Load managed assembly and get function pointer to a managed method
-    //
-    const string_t dotnetlib_path = root_path + STR("TestApp.dll");
-    const char_t* dotnet_type = STR("TestApp.Lib, TestApp");
-    const char_t* dotnet_type_method = STR("Hello");
-    // <SnippetLoadAndGet>
-    // Function pointer to managed delegate
-    component_entry_point_fn hello = nullptr;
-    int rc = load_assembly_and_get_function_pointer(
-        dotnetlib_path.c_str(),
-        dotnet_type,
-        dotnet_type_method,
-        nullptr /*delegate_type_name*/,
-        nullptr,
-        (void**)&hello);
-    // </SnippetLoadAndGet>
-    assert(rc == 0 && hello != nullptr && "Failure: load_assembly_and_get_function_pointer()");
-
-    //
-    // STEP 4: Run managed code
-    //
-    struct lib_args
+    MonoImage* image;
+    image = mono_assembly_get_image(csharpAssembly);
+    if (!image)
     {
-        const char_t* message;
-        int number;
-    };
-    for (int i = 0; i < 3; ++i)
-    {
-        // <SnippetCallManaged>
-        lib_args args
-        {
-            STR("from host!"),
-            i
-        };
-
-        hello(&args, sizeof(args));
-        // </SnippetCallManaged>
+        std::cout << "mono_assembly_get_image failed" << std::endl;
     }
 
-    // Function pointer to managed delegate with non-default signature
-    typedef void (CORECLR_DELEGATE_CALLTYPE* custom_entry_point_fn)(lib_args args);
-    custom_entry_point_fn custom = nullptr;
-    rc = load_assembly_and_get_function_pointer(
-        dotnetlib_path.c_str(),
-        dotnet_type,
-        STR("CustomEntryPoint") /*method_name*/,
-        STR("DotNetLib.Lib+CustomEntryPointDelegate, DotNetLib") /*delegate_type_name*/,
-        nullptr,
-        (void**)&custom);
-    assert(rc == 0 && custom != nullptr && "Failure: load_assembly_and_get_function_pointer()");
+	mono_add_internal_call("TestApp.Native::PrintMethod", &PrintMethod);
 
-    lib_args args
-    {
-        STR("from host!"),
-        -1
-    };
-    custom(args);
+	//Build a method description object
+	MonoMethodDesc* TypeMethodDesc;
+	char* TypeMethodDescStr = (char *)"TestApp.Lib:test()";
+	TypeMethodDesc = mono_method_desc_new(TypeMethodDescStr, NULL);
+	if (!TypeMethodDesc)
+	{
+		std::cout << "mono_method_desc_new failed" << std::endl;
+		system("pause");
+		return 1;
+	}
 
+	//Search the method in the image
+	MonoMethod* method;
+	method = mono_method_desc_search_in_image(TypeMethodDesc, image);
+	if (!method)
+	{
+		std::cout << "mono_method_desc_search_in_image failed" << std::endl;
+		system("pause");
+		return 1;
+	}
 
-    std::getchar();
+	//run the method
+	std::cout << "Running the static method: " << TypeMethodDescStr << std::endl;
+	mono_runtime_invoke(method, nullptr, nullptr, nullptr);
 
     return 0;
-}
-
-namespace
-{
-    // Forward declarations
-    void* load_library(const char_t*);
-    void* get_export(void*, const char*);
-
-    void* load_library(const char_t* path)
-    {
-        HMODULE h = ::LoadLibraryW(path);
-        assert(h != nullptr);
-        return (void*)h;
-    }
-    void* get_export(void* h, const char* name)
-    {
-        void* f = ::GetProcAddress((HMODULE)h, name);
-        assert(f != nullptr);
-        return f;
-    }
-
-
-    // <SnippetLoadHostFxr>
-    // Using the nethost library, discover the location of hostfxr and get exports
-    bool load_hostfxr()
-    {
-        // Pre-allocate a large buffer for the path to hostfxr
-        char_t buffer[MAX_PATH];
-        size_t buffer_size = sizeof(buffer) / sizeof(char_t);
-        int rc = get_hostfxr_path(buffer, &buffer_size, nullptr);
-        if (rc != 0)
-            return false;
-
-        // Load hostfxr and get desired exports
-        void* lib = load_library(buffer);
-        init_fptr = (hostfxr_initialize_for_runtime_config_fn)get_export(lib, "hostfxr_initialize_for_runtime_config");
-        get_delegate_fptr = (hostfxr_get_runtime_delegate_fn)get_export(lib, "hostfxr_get_runtime_delegate");
-        close_fptr = (hostfxr_close_fn)get_export(lib, "hostfxr_close");
-
-        return (init_fptr && get_delegate_fptr && close_fptr);
-    }
-    // </SnippetLoadHostFxr>
-
-    // <SnippetInitialize>
-    // Load and initialize .NET Core and get desired function pointer for scenario
-    load_assembly_and_get_function_pointer_fn get_dotnet_load_assembly(const char_t* config_path)
-    {
-        // Load .NET Core
-        void* load_assembly_and_get_function_pointer = nullptr;
-        hostfxr_handle cxt = nullptr;
-        int rc = init_fptr(config_path, nullptr, &cxt);
-        if (rc != 0 || cxt == nullptr)
-        {
-            std::cerr << "Init failed: " << std::hex << std::showbase << rc << std::endl;
-            close_fptr(cxt);
-            return nullptr;
-        }
-
-        // Get the load assembly function pointer
-        rc = get_delegate_fptr(
-            cxt,
-            hdt_load_assembly_and_get_function_pointer,
-            &load_assembly_and_get_function_pointer);
-        if (rc != 0 || load_assembly_and_get_function_pointer == nullptr)
-            std::cerr << "Get delegate failed: " << std::hex << std::showbase << rc << std::endl;
-
-        close_fptr(cxt);
-        return (load_assembly_and_get_function_pointer_fn)load_assembly_and_get_function_pointer;
-    }
-    // </SnippetInitialize>
 }
