@@ -1,6 +1,6 @@
 # F4Sandbox
 
-### An High Level Modding API for Fallout 4
+### A High Level Modding API for Fallout 4
 
 ### Still in development
 
